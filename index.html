@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bridgeway, a design concept</title>
+<meta name="description" content="A product design concept for Adobe. Bridgeway learns the story an owner already tells every day, then prepares the unfinished marketing work for their review.">
+<meta name="theme-color" content="#FAFCFD">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=satoshi@400,500,700&display=swap">
+<link rel="preload" as="image" href="assets/bridgeway/deck/persona-alex.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23FAFCFD'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%231A4DE6'/%3E%3C/svg%3E">
+
+<style>
+/* ============================================================
+   BRIDGEWAY, long-form case layout
+   768px reading column, 230px sticky rail, Satoshi display,
+   mono labels, 15px body. Blue is the only accent.
+   ============================================================ */
+
+:root{
+  --paper:#FAFCFD;
+  --paper-2:#F1F4F8;
+  --white:#FFFFFF;
+  --ink:#32404F;
+  --ink-mute:rgba(50,64,79,.78);
+  --ink-faint:rgba(50,64,79,.56);
+  --line:rgba(50,64,79,.14);
+  --line-2:rgba(50,64,79,.08);
+  --blue:#1A4DE6;
+  --blue-ink:#1338A8;
+  --blue-soft:rgba(26,77,230,.07);
+  --blue-line:rgba(26,77,230,.22);
+
+  --serif:Satoshi,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;   /* display */
+  --sans:Satoshi,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:Satoshi,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;  /* labels: same face, tracked */
+
+  --col:768px;
+  --rail:230px;
+  --pad:24px;
+
+  --ease:cubic-bezier(.22,1,.36,1);
+  --spring:cubic-bezier(.34,1.42,.5,1);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%; scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink-mute);
+  font-family:var(--sans);
+  font-size:15px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+img{display:block; max-width:100%}
+a{color:inherit}
+p{margin:0}
+::selection{background:var(--blue); color:#fff}
+
+/* ── type scale, lifted from the reference ─────────────────── */
+h1,h2,h3{font-family:var(--serif); font-weight:500; color:var(--ink); margin:0; text-wrap:balance}
+h1{font-size:56px; line-height:1.08; letter-spacing:-1.9px}
+h2{font-size:32px; line-height:1.18; letter-spacing:-1px}
+h3{font-size:21.2px; line-height:1.42; letter-spacing:-.6px}
+.label{
+  font-family:var(--sans); font-size:12px; font-weight:700; line-height:1.5;
+  text-transform:uppercase; letter-spacing:.13em; color:var(--ink);
+}
+.label.b{color:var(--blue)}
+strong{color:var(--ink); font-weight:500}
+em{font-style:normal; color:var(--ink)}
+
+/* ── shell ─────────────────────────────────────────────────── */
+#rail{
+  position:fixed; inset:0 auto 0 0; width:var(--rail); z-index:40;
+  padding:30px 22px 26px 28px; display:none; flex-direction:column;
+  border-right:1px solid var(--line-2); background:var(--paper);
+  overflow-y:auto; scrollbar-width:none;
+}
+#rail::-webkit-scrollbar{display:none}
+.back{font-family:var(--sans); font-size:12px; font-weight:500; text-transform:uppercase; letter-spacing:.12em;
+      color:var(--ink-faint); text-decoration:none; display:inline-flex; gap:8px; align-items:center;
+      transition:color .3s var(--ease)}
+.back:hover{color:var(--blue)}
+.rail-proj{margin-top:10px}
+.rail-proj b{font-family:var(--serif); font-weight:700; font-size:19px; color:var(--ink); display:block; letter-spacing:-.02em}
+.rail-proj span{font-size:13px; color:var(--ink-faint); display:block; margin-top:2px}
+.rail-rule{height:1px; background:var(--line-2); margin:22px 0}
+#toc{display:flex; flex-direction:column; gap:2px}
+#toc a{
+  font-size:14px; color:var(--ink-faint); text-decoration:none; padding:3px 0;
+  transition:color .35s var(--ease); position:relative;
+}
+#toc a:hover{color:var(--ink-mute)}
+#toc a.on{color:var(--blue)}
+
+main{padding:0 var(--pad)}
+.col{width:100%; max-width:var(--col); margin:0 auto}
+
+/* ── sections: 32px lead-in, 16px internal rhythm ──────────── */
+.sec{display:flex; flex-direction:column; gap:16px; padding-top:56px; scroll-margin-top:24px}
+.sec .lede{max-width:66ch}
+.tight{gap:4px; display:flex; flex-direction:column}
+.pair-gap{margin-top:20px}
+
+/* ── hero ──────────────────────────────────────────────────── */
+.hero{display:flex; flex-direction:column; gap:32px; padding-top:64px}
+.hero h1{max-width:16ch}
+.hero-line{font-family:var(--serif); font-weight:500; font-size:clamp(19px,1.9vw,24px); line-height:1.3;
+           letter-spacing:-.5px; color:var(--ink-mute); max-width:34ch; margin-top:-14px}
+.meta{display:grid; grid-template-columns:repeat(4,1fr); gap:20px}
+.meta .label{margin-bottom:2px}
+.meta p{color:var(--ink-mute)}
+
+/* ── media stages ──────────────────────────────────────────── */
+.stage{background:var(--paper-2); overflow:hidden; position:relative}
+.stage.cover{aspect-ratio:16/9}
+.stage.cover img{width:100%; height:100%; object-fit:cover}
+
+/* ── hero: the film, not a photograph ──────────────────────── */
+.film{position:relative; aspect-ratio:16/10; background:#08090C; overflow:hidden; display:flex; align-items:flex-end}
+.film .fp{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0;
+          transform:scale(1.05); transition:opacity 1.1s var(--ease), transform 4s var(--ease)}
+.film .fp.on{opacity:.82; transform:scale(1)}
+.film::after{content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(8,9,12,.55) 0%, rgba(8,9,12,.1) 38%, rgba(8,9,12,.88) 100%)}
+.film-in{position:relative; z-index:1; padding:clamp(22px,3vw,36px); width:100%}
+.film-in .label{color:rgba(255,255,255,.72)}
+.film-line{color:#fff; font-size:clamp(22px,2.6vw,34px); line-height:1.15; letter-spacing:-.8px; max-width:20ch;
+           margin:10px 0 20px; min-height:2.4em; transition:opacity .5s var(--ease), transform .6s var(--ease)}
+.film-line.swap{opacity:0; transform:translateY(8px)}
+.film-bar{position:absolute; left:0; right:0; bottom:0; height:2px; background:rgba(255,255,255,.16); z-index:2}
+.film-bar i{position:absolute; inset:0 auto 0 0; width:100%; background:var(--blue); transform-origin:0 50%; transform:scaleX(var(--p,0))}
+.film .link.solid{background:#fff; border-color:#fff; color:#0B0D11}
+.film .link.solid:hover{background:var(--blue); border-color:var(--blue); color:#fff}
+.cap{font-size:13.5px; color:var(--ink-faint); margin-top:-6px}
+
+/* feature row: media left, serif caption right */
+.feature{display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:center}
+.feature .stage{aspect-ratio:4/3}
+/* a phone screen is 1:2.16, so let the stage take its height instead of
+   cropping it into the 4:3 box the flat images use */
+.feature .stage.tall{aspect-ratio:auto; display:grid; place-items:center; padding:26px}
+.feature .stage.tall img{width:62%; max-width:210px; border-radius:20px; box-shadow:0 1px 3px rgba(50,64,79,.10), 0 18px 40px -18px rgba(50,64,79,.34)}
+.feature h3{margin:0}
+.feature .sub{margin-top:6px; font-size:14px}
+
+/* ── quiet UI pieces ───────────────────────────────────────── */
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+.grid4{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+.card{background:var(--white); border:1px solid var(--line-2); padding:20px}
+.card h3{font-size:18px; letter-spacing:-.02em}
+.card p{margin-top:6px; font-size:14px}
+
+.keyline{border-left:2px solid var(--blue); padding:2px 0 2px 20px; margin:8px 0}
+.keyline h3{color:var(--ink)}
+
+.rowlist{display:flex; flex-direction:column}
+.row{display:grid; grid-template-columns:150px 1fr; gap:16px; padding:14px 0; border-top:1px solid var(--line-2); align-items:baseline;
+     transition:background .4s var(--ease)}
+.row:hover{background:linear-gradient(90deg, rgba(26,77,230,.045), rgba(26,77,230,0) 60%)}
+.row:hover .k{color:var(--blue)}
+.row .k{transition:color .35s var(--ease)}
+.row:first-child{border-top:0}
+.row .k{font-family:var(--sans); font-size:11.5px; font-weight:500; text-transform:uppercase; letter-spacing:.12em; color:var(--ink-faint)}
+.row .v{color:var(--ink-mute)}
+.row .v b{color:var(--ink); font-weight:500; display:block; margin-bottom:2px; font-family:var(--sans); font-size:15px}
+
+.stat{display:grid; grid-template-columns:repeat(3,1fr); gap:20px}
+.stat .v{font-family:var(--serif); font-weight:700; font-size:44px; line-height:1.05; color:var(--blue); letter-spacing:-.02em; font-variant-numeric:tabular-nums}
+.stat p{margin-top:8px; font-size:14px}
+
+.chips{display:flex; flex-wrap:wrap; gap:8px}
+.chip{
+  font-size:13px; padding:6px 12px; border:1px solid var(--line); background:var(--white);
+  color:var(--ink-mute); white-space:nowrap; border-radius:999px;
+  transition:border-color .3s var(--ease), color .3s var(--ease);
+}
+.chip:hover{border-color:var(--blue); color:var(--blue)}
+
+/* ── persona rail (scrubbed inside the column) ─────────────── */
+.railstage{overflow:hidden; position:relative}
+.track{display:flex; gap:12px; will-change:transform}
+.person{flex:none; width:242px}
+.person .ph{aspect-ratio:4/5; background:var(--paper-2); overflow:hidden}
+.person img{width:100%; height:100%; object-fit:cover; transition:transform 1.2s var(--ease), filter .8s var(--ease); filter:saturate(.92)}
+.person:hover img{transform:scale(1.05); filter:none}
+.person b{display:block; font-family:var(--serif); font-size:18px; color:var(--ink); font-weight:500; margin-top:10px; letter-spacing:-.02em}
+.person span{display:block; font-size:13px; color:var(--ink-faint)}
+.person p{margin-top:8px; font-size:13.5px}
+.scrubbar{height:1px; background:var(--line); margin-top:16px; position:relative}
+.scrubbar i{position:absolute; inset:0 auto 0 0; width:100%; background:var(--blue); transform-origin:0 50%; transform:scaleX(var(--p,0))}
+
+/* ── the two shifts ────────────────────────────────────────── */
+.shifts{display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:start}
+.shifts h3{margin-bottom:8px}
+.shifts .blue h3{color:var(--blue)}
+
+/* ── Alex, 8:52 PM. Pinned, so the room drifts and the clock runs ── */
+.nightrig{position:relative; height:210vh}
+.night{position:sticky; top:9vh; height:68vh; min-height:440px; display:flex; align-items:center;
+       background:#0B0D11; color:#fff; overflow:hidden}
+.night img{position:absolute; inset:-6% 0; width:100%; height:112%; object-fit:cover; opacity:.7;
+           transform:translate3d(0,var(--drift,0px),0) scale(1.04); will-change:transform}
+/* the room is busy behind the type: scrim, or the body copy sits on a window */
+.night::after{content:""; position:absolute; inset:0;
+  background:linear-gradient(90deg, rgba(11,13,17,.94) 0%, rgba(11,13,17,.78) 46%, rgba(11,13,17,.24) 100%)}
+.night .in{position:relative; z-index:1; padding:44px 40px}
+.night .clock span{display:inline-block; transition:transform .5s var(--spring), opacity .35s var(--ease)}
+.night .clock.tick span{transform:translateY(10px); opacity:0; transition:none}
+.nightbar{position:absolute; left:0; right:0; bottom:0; height:2px; background:rgba(255,255,255,.14); z-index:2}
+.nightbar i{position:absolute; inset:0 auto 0 0; width:100%; background:var(--blue); transform-origin:0 50%;
+            transform:scaleX(var(--p,0))}
+.night .clock{font-family:var(--serif); font-weight:700; font-size:52px; line-height:1; color:#fff; letter-spacing:-.02em; display:flex; align-items:baseline; gap:10px}
+.night .clock em{font-family:var(--sans); font-weight:500; font-size:14px; letter-spacing:.1em; color:rgba(255,255,255,.72)}
+.night h3{color:#fff; margin-top:14px; max-width:22ch}
+.night p{color:rgba(255,255,255,.8); max-width:52ch; margin-top:12px}
+.night p strong{color:#fff}
+
+/* ── the friction stack ────────────────────────────────────── */
+.count{font-family:var(--serif); font-weight:700; font-size:88px; line-height:.9; color:var(--blue); letter-spacing:-.03em; font-variant-numeric:tabular-nums}
+.count sup{font-size:.34em; vertical-align:super}
+.shots{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+.shots .stage{aspect-ratio:4/3}
+.shots img{width:100%; height:100%; object-fit:cover; object-position:top center}
+
+/* ── two languages ─────────────────────────────────────────── */
+.langs{display:flex; flex-direction:column}
+.lang{display:grid; grid-template-columns:1fr 1fr; gap:24px; padding:14px 0; border-top:1px solid var(--line-2)}
+.lang .q{font-family:var(--serif); font-size:19px; letter-spacing:-.02em; color:var(--blue)}
+.lang .a{font-family:var(--serif); font-size:19px; letter-spacing:-.02em; color:var(--ink)}
+
+/* ── translation model ─────────────────────────────────────── */
+.model{display:flex; flex-direction:column}
+.step{display:grid; grid-template-columns:56px 1fr; gap:16px; padding:16px 0; border-top:1px solid var(--line-2); align-items:start;
+      position:relative; transition:transform .5s var(--ease)}
+.step:hover{transform:translateX(4px)}
+/* the model draws its own spine as you scroll past it */
+.model{position:relative}
+.model::before{content:""; position:absolute; left:2px; top:20px; bottom:20px; width:1px; background:var(--line-2)}
+.model::after{content:""; position:absolute; left:2px; top:20px; width:1px; background:var(--blue);
+              height:calc(var(--p,0) * (100% - 40px)); transition:height .2s linear}
+.step .n{position:relative; z-index:1; padding-left:18px}
+.step .n{font-family:var(--sans); font-weight:700; font-size:12px; letter-spacing:.1em; color:var(--blue); letter-spacing:.06em; padding-top:4px}
+.step h3{font-size:19px}
+.step p{margin-top:4px}
+
+/* ── the flow: copy left, real screens right, scrubbed ─────── */
+#flow{padding-top:56px}
+.flowrig{position:relative}
+.flowstage{position:sticky; top:0; min-height:100svh; display:flex; flex-direction:column; justify-content:center; gap:24px; padding-block:40px}
+.flowgrid{display:grid; grid-template-columns:1fr 272px; gap:36px; align-items:center}
+.flowcopy{position:relative; min-height:210px}
+.fc{position:absolute; inset:0; opacity:0; transform:translate3d(0,14px,0);
+    transition:opacity .5s var(--ease), transform .7s var(--ease); pointer-events:none}
+.fc.on{opacity:1; transform:none; pointer-events:auto}
+.fc .label{display:block; margin-bottom:6px}
+.fc p{margin-top:10px}
+
+.flowshots{position:relative; width:272px; aspect-ratio:620/1341; margin-inline:auto}
+.shot{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  border-radius:38px; border:1px solid var(--line-2);
+  box-shadow:0 2px 8px rgba(50,64,79,.10), 0 34px 70px -30px rgba(50,64,79,.40);
+  opacity:0; transform:translate3d(0,14px,0) scale(.985);
+  transition:opacity .55s var(--ease), transform .7s var(--ease);
+}
+.shot.on{opacity:1; transform:none}
+
+.dots{display:flex; gap:6px; justify-content:center}
+.dots button{width:26px; height:14px; padding:6px 0; border:0; background:none; cursor:pointer; display:block}
+.dots button i{display:block; width:100%; height:2px; background:var(--line);
+               transition:background .4s var(--ease), transform .4s var(--spring)}
+.dots button:hover i{background:var(--blue-line); transform:scaleY(2)}
+.dots button.on i{background:var(--blue); transform:scaleY(2)}
+
+.btn{
+  font-family:var(--sans); font-size:12px; font-weight:500; border-radius:999px; padding:9px 14px; cursor:pointer;
+  border:1px solid var(--line); background:#fff; color:var(--ink);
+  transition:transform .3s var(--spring), background .3s, border-color .3s, color .3s;
+}
+.btn:hover{border-color:var(--blue); color:var(--blue)}
+.btn:active{transform:scale(.96)}
+.btn.done{background:#0F8B54; border-color:#0F8B54; color:#fff}
+
+/* ── drafts, full width ────────────────────────────────────── */
+.drafts{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+.dcard{background:var(--white); border:1px solid var(--line-2); display:flex; flex-direction:column;
+       transition:border-color .5s var(--ease), transform .6s var(--ease)}
+.dcard:hover{border-color:var(--blue-line); transform:translateY(-2px)}
+.dcard .top{display:flex; justify-content:space-between; align-items:center; gap:10px; padding:12px 14px; border-bottom:1px solid var(--line-2)}
+.dcard .kind{font-size:13px; font-weight:500; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.dcard .state{font-size:10.5px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap;
+              color:var(--blue); background:var(--blue-soft); border-radius:999px; padding:4px 9px}
+.dcard .body{padding:16px 14px; font-size:14.5px; line-height:1.5; color:var(--ink); flex:1}
+.dcard .body .quiet{display:block; color:var(--ink-faint); font-size:12.5px; margin-top:10px; line-height:1.45}
+.dcard .foot{display:flex; justify-content:space-between; align-items:center; gap:8px; padding:12px 14px; border-top:1px solid var(--line-2)}
+.dcard .foot span{font-size:11.5px; color:var(--ink-faint); white-space:nowrap}
+
+/* ── the return ────────────────────────────────────────────── */
+.morning{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+.morning .ph{aspect-ratio:3/4; background:#12161C; overflow:hidden}
+.morning img{width:100%; height:100%; object-fit:cover; filter:saturate(.85) brightness(.8); transition:filter 1.4s var(--ease)}
+.morning.lit img{filter:none}
+.morning b{display:block; font-family:var(--serif); font-weight:500; font-size:17px; color:var(--ink); margin-top:10px; letter-spacing:-.02em}
+.morning span{display:block; font-size:13px; color:var(--ink-faint)}
+
+.closing{border-top:1px solid var(--line); padding-top:32px; margin-top:16px}
+
+footer{margin-top:80px; border-top:1px solid var(--line-2); padding:28px 0 64px}
+.foot{display:flex; flex-wrap:wrap; gap:16px 32px; justify-content:space-between; align-items:center}
+.links{display:flex; flex-wrap:wrap; gap:8px}
+.link{font-family:var(--sans); font-size:12px; font-weight:500; text-transform:uppercase; letter-spacing:.12em; text-decoration:none;
+      border:1px solid var(--line); border-radius:999px; padding:8px 14px; color:var(--ink-mute);
+      transition:border-color .35s var(--ease), color .35s var(--ease)}
+.link{transition:border-color .35s var(--ease), color .35s var(--ease), transform .35s var(--spring), box-shadow .35s var(--ease)}
+.link:hover{border-color:var(--blue); color:var(--blue); transform:translateY(-2px)}
+.link.solid{background:var(--blue); border-color:var(--blue); color:#fff; padding:11px 18px; font-size:13px}
+.link.solid:hover{background:var(--blue-ink); border-color:var(--blue-ink); color:#fff; box-shadow:0 10px 24px -10px rgba(26,77,230,.7)}
+
+
+/* ── reveal ────────────────────────────────────────────────── */
+.rv{opacity:0; transform:translate3d(0,16px,0); transition:opacity .75s var(--ease), transform .9s var(--ease); transition-delay:var(--d,0s)}
+.rv.in{opacity:1; transform:none}
+
+/* children arrive one after another instead of as a slab */
+.stagger > *{opacity:0; transform:translate3d(0,14px,0); transition:opacity .7s var(--ease), transform .8s var(--ease)}
+.stagger.in > *{opacity:1; transform:none}
+.stagger.in > *:nth-child(1){transition-delay:.02s}
+.stagger.in > *:nth-child(2){transition-delay:.09s}
+.stagger.in > *:nth-child(3){transition-delay:.16s}
+.stagger.in > *:nth-child(4){transition-delay:.23s}
+.stagger.in > *:nth-child(5){transition-delay:.30s}
+.stagger.in > *:nth-child(6){transition-delay:.37s}
+
+/* media wipes up, the picture settles out of a slight overscale */
+.wipe{clip-path:inset(0 0 100% 0); transition:clip-path 1.05s var(--ease)}
+.wipe.in{clip-path:inset(0 0 0 0)}
+.wipe img{transform:scale(1.06); transition:transform 1.4s var(--ease)}
+.wipe.in img{transform:none}
+
+/* the two languages meet in the middle */
+.lang .q{transform:translate3d(-22px,0,0); opacity:0; transition:opacity .7s var(--ease), transform .9s var(--ease)}
+.lang .a{transform:translate3d(22px,0,0); opacity:0; transition:opacity .7s var(--ease), transform .9s var(--ease)}
+.lang.in .q,.lang.in .a{transform:none; opacity:1}
+.lang.in .a{transition-delay:.12s}
+
+/* ── wide: show the rail, centre the column beside it ──────── */
+@media (min-width:1080px){
+  #rail{display:flex}
+  main{padding-left:calc(var(--rail) + var(--pad)); padding-right:var(--pad)}
+}
+
+/* ── small ─────────────────────────────────────────────────── */
+@media (max-width:820px){
+  h1{font-size:36px; letter-spacing:-.72px}
+  h2{font-size:25px; letter-spacing:-.5px}
+  h3{font-size:19px; letter-spacing:-.38px}
+  .label{font-size:13px}
+  .meta{grid-template-columns:1fr 1fr}
+  .feature,.grid2,.shifts,.lang{grid-template-columns:1fr}
+  .lang{gap:2px}
+  .lang .a{color:var(--ink-mute)}
+  .shots,.drafts,.stat{grid-template-columns:1fr}
+  .morning{grid-template-columns:1fr 1fr}
+  .row{grid-template-columns:1fr; gap:4px}
+  .film{aspect-ratio:4/5}
+  .film-line{min-height:3.2em}
+  .nightrig{height:170vh}
+  .night{height:64vh; min-height:380px}
+  .night .in{padding:28px 22px}
+  .night .clock{font-size:38px}
+  .count{font-size:64px}
+  .track{overflow-x:auto; scroll-snap-type:x mandatory; transform:none !important; scrollbar-width:none; padding-bottom:10px}
+  .track::-webkit-scrollbar{display:none}
+  .track > *{scroll-snap-align:start}
+  .scrubbar{display:none}
+  /* the flow stays pinned on a phone: the copy sits above the screen */
+  .flowgrid{grid-template-columns:1fr; gap:16px}
+  .flowshots{width:min(200px,52vw)}
+  .flowstage{padding-block:20px; gap:16px}
+  .flowcopy{min-height:196px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rv, .stagger > *, .lang .q, .lang .a{opacity:1 !important; transform:none !important; transition:none !important}
+  .wipe{clip-path:none !important}
+  .wipe img{transform:none !important}
+  .model::after{display:none}
+  .nightrig{height:auto}
+  .night{position:static; height:auto; min-height:0; padding-block:8px}
+  .night img{transform:none !important}
+  .film .fp{opacity:0} .film .fp.on{opacity:.82; transform:none}
+  .track{transform:none !important; overflow-x:auto}
+  .flowrig{height:auto !important}
+  .flowstage{position:static; min-height:0}
+  .flowgrid{grid-template-columns:1fr}
+  .flowcopy{position:static; min-height:0; display:flex; flex-direction:column; gap:20px}
+  .flowshots{height:auto; aspect-ratio:auto; display:flex; flex-direction:column; gap:16px}
+  .fc{position:static; opacity:1; transform:none; pointer-events:auto}
+  .shot{position:relative; display:none; opacity:1; transform:none} .shot.on{display:block}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ═══════════════════════════ RAIL ═══════════════════════════ -->
+<aside id="rail">
+  <a class="back" href="https://gauravi.design" target="_blank" rel="noopener">Gauravi × Bridgeway</a>
+  <div class="rail-proj">
+    <span>Adobe · product concept</span>
+  </div>
+  <div class="rail-rule"></div>
+  <nav id="toc">
+    <a href="#overview">Overview</a>
+    <a href="#shift">The Second Shift</a>
+    <a href="#collision">The System Collision</a>
+    <a href="#model">The Translation Model</a>
+    <a href="#principles">Principles</a>
+    <a href="#flow">The Flow</a>
+    <a href="#work">Useful Work</a>
+    <a href="#return">The Return</a>
+    <a href="#reflection">Reflection</a>
+  </nav>
+</aside>
+
+<main>
+<div class="col">
+
+  <!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+  <header class="hero">
+    <p class="label">Bridgeway · Adobe product concept 2026</p>
+    <h1>Bridgeway, a design concept</h1>
+    <p class="hero-line">Before AI can market a business, it has to understand the person behind it.</p>
+
+    <div class="stage cover rv wipe">
+      <img src="assets/bridgeway/deck/persona-alex.jpg" alt="Alex coaching a small class in a bright studio">
+    </div>
+
+    <div class="meta rv stagger">
+      <div class="tight"><p class="label">Role</p><p>Product Designer</p><p>Prototyping</p></div>
+      <div class="tight"><p class="label">Timeline</p><p>August 2026</p><p>Design test</p></div>
+      <div class="tight"><p class="label">Team</p><p>1 Designer (me)</p></div>
+      <div class="tight"><p class="label">Skills</p><p>Product Design</p><p>Narrative &amp; Research</p><p>Frontend Prototyping</p></div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════ OVERVIEW ═══════════════════════ -->
+  <section class="sec" id="overview">
+    <p class="label rv">Overview</p>
+    <h2 class="rv">Before AI can market a business, it has to understand the story the owner is already living.</h2>
+    <p class="lede rv">Project Bridgeway is Adobe's AI marketing agent for small businesses. Before it understands the business, it asks the owner to choose channels, configure tools, and translate their needs into marketing terminology. I redesigned onboarding as a translation layer: five questions in the owner's own words, then useful work prepared for their review.</p>
+
+    <p class="label rv pair-gap">Solution</p>
+    <h2 class="rv">Five questions. Then useful work.</h2>
+    <p class="rv">A short mobile conversation replaces more than 25 configuration tasks and disconnected handoffs.</p>
+
+    <div class="feature rv">
+      <div class="stage tall rv wipe"><img src="assets/bridgeway/flow/step-01.jpg" alt="Onboarding asks which beginning sounds most like you" loading="lazy"></div>
+      <div>
+        <h3>The owner can answer without learning marketing terminology.</h3>
+        <p class="sub">Instead of asking for a campaign, Bridgeway asks what feels true.</p>
+      </div>
+    </div>
+
+    <div class="feature rv">
+      <div class="stage tall rv wipe"><img src="assets/bridgeway/flow/step-02.jpg" alt="Three controls set tone, subject and intent, with a plain-language summary" loading="lazy"></div>
+      <div>
+        <h3>The owner sets direction without writing a strategy.</h3>
+        <p class="sub">Familiar, people-led marketing designed to build trust and reach new members.</p>
+      </div>
+    </div>
+
+    <div class="feature rv">
+      <div class="stage tall rv wipe"><img src="assets/bridgeway/flow/step-05.jpg" alt="Connect Instagram and the website; nothing is posted without approval" loading="lazy"></div>
+      <div>
+        <h3>Nothing is published or sent until the owner reviews it.</h3>
+        <p class="sub">Sources connect after the story is understood, in the places where the business already operates.</p>
+      </div>
+    </div>
+
+    <p class="label rv pair-gap">Outcomes</p>
+    <p class="rv">A 25-step, desktop-first setup becomes a five-question mobile conversation. Bridgeway prepares relevant drafts in the places where the business already operates, and nothing is published or sent until the owner reviews it.</p>
+  </section>
+
+  <!-- ═══════════════════ ACT I. THE SECOND SHIFT ════════════════ -->
+  <section class="sec" id="shift">
+    <p class="label rv">Act I. The second shift</p>
+    <h2 class="rv">Four businesses. One invisible second shift.</h2>
+    <p class="rv">Their work is different. The pressure after closing is the same.</p>
+
+    <div class="railstage rv" data-rail>
+      <div class="track stagger in" data-track>
+        <article class="person">
+          <div class="ph"><img src="assets/bridgeway/deck/persona-maya.jpg" alt="Maya, a neighborhood baker" loading="lazy"></div>
+          <b>Maya</b><span>Neighborhood baker</span>
+        </article>
+        <article class="person">
+          <div class="ph"><img src="assets/bridgeway/deck/persona-alex.jpg" alt="Alex, an independent fitness coach" loading="lazy"></div>
+          <b>Alex</b><span>Independent fitness coach</span>
+        </article>
+        <article class="person">
+          <div class="ph"><img src="assets/bridgeway/deck/persona-noor.jpg" alt="Noor, a neighborhood café owner" loading="lazy"></div>
+          <b>Noor</b><span>Neighborhood café owner</span>
+        </article>
+        <article class="person">
+          <div class="ph"><img src="assets/bridgeway/deck/persona-sofia.jpg" alt="Sofia, a studio florist" loading="lazy"></div>
+          <b>Sofia</b><span>Studio florist</span>
+        </article>
+      </div>
+    </div>
+    <div class="scrubbar" data-scrub><i></i></div>
+    <p class="cap rv">Alex, Maya, Noor and Sofia are composite personas synthesized from observed small-business patterns. They are not real individuals.</p>
+
+    <div class="shifts pair-gap rv" data-shifts>
+      <div class="loved">
+        <h3>The work they love.</h3>
+        <p>Coaching the class. Baking the bread. Serving the morning rush. Arranging every stem by hand.</p>
+      </div>
+      <div class="blue">
+        <h3>The work that follows them home.</h3>
+        <div class="chips stagger" style="margin-top:14px" data-chips>
+          <span class="chip">Reviews</span>
+          <span class="chip">Customer messages</span>
+          <span class="chip">Schedule changes</span>
+          <span class="chip">Website updates</span>
+          <span class="chip">Captions</span>
+          <span class="chip">People who quietly disappeared</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="rv">Marketing becomes a second shift after the business closes.</p>
+
+    <p class="label rv pair-gap">The human spine</p>
+    <h2 class="rv">Meet Alex, a fitness coach.</h2>
+    <div class="nightrig" data-nightrig>
+    <div class="night" data-night>
+      <img src="assets/bridgeway/deck/alex-night.jpg" alt="Alex alone in the studio at night, lit by a phone screen" loading="lazy">
+      <div class="in">
+        <p class="clock"><span data-clock>8:52</span><em>PM</em></p>
+        <h3>Alex's real work is finished. The marketing work is not.</h3>
+        <p>Coaching takes the whole day. After the last class: customer questions, unanswered reviews, schedule changes, lapsed members, an unposted video.</p>
+        <p><strong>Alex does not need another tool to manage. Alex needs the work prepared for review.</strong></p>
+      </div>
+      <span class="nightbar" data-nightbar><i></i></span>
+    </div>
+    </div>
+    <p class="cap rv">Composite scenario based on the product audit and small-business workflow research.</p>
+  </section>
+
+  <!-- ═══════════════ ACT II. THE SYSTEM COLLISION ═══════════════ -->
+  <section class="sec" id="collision">
+    <p class="label rv">Act II. The system collision</p>
+    <h2 class="rv">The existing experience begins with the system.</h2>
+    <p class="rv">Before Bridgeway understands the business, it asks the owner to choose channels, configure tools, and translate their needs into marketing terminology.</p>
+
+    <div class="shots rv stagger">
+      <div class="stage wipe in"><img src="assets/bridgeway/deck/old-analyze.jpg" alt="Current onboarding: let's analyze your website" loading="lazy"></div>
+      <div class="stage wipe in"><img src="assets/bridgeway/deck/old-interests.jpg" alt="Current onboarding: what marketing interests you the most" loading="lazy"></div>
+      <div class="stage wipe in"><img src="assets/bridgeway/deck/old-basics.jpg" alt="Current onboarding: let's start with the basics" loading="lazy"></div>
+    </div>
+    <p class="cap rv">Heuristic evaluation of the current onboarding flow, to identify where the product asks owners to think like marketers.</p>
+
+    <p class="label rv pair-gap">Stage 01. The friction</p>
+    <p class="count rv"><span data-count="25" data-dur="1400">0</span><sup>+</sup></p>
+    <h3 class="rv">steps in the current onboarding.</h3>
+    <p class="rv">Desktop-only workflows, extensive configuration, and tedious manual setups that block immediate value creation for busy small business owners.</p>
+
+    <div class="rowlist pair-gap rv stagger">
+      <div class="row"><p class="k">Friction 01</p><p class="v"><b>Requires manual prompt copying to external AI tools</b>The product hands the work of translation back to the owner.</p></div>
+      <div class="row"><p class="k">Friction 02</p><p class="v"><b>Desktop-first layout isolates mobile business users</b>Owners run their businesses away from a desk. The flow assumes they are sitting at one.</p></div>
+    </div>
+
+    <p class="label rv pair-gap">Two languages</p>
+    <h2 class="rv">The product and the owner are speaking different languages.</h2>
+    <div class="langs">
+      <div class="lang" data-lang><p class="q">Which channel do you want to configure?</p><p class="a">Who needs me today?</p></div>
+      <div class="lang" data-lang><p class="q">What is your campaign objective?</p><p class="a">What should people remember?</p></div>
+      <div class="lang" data-lang><p class="q">Which task should an agent run?</p><p class="a">What will happen without me?</p></div>
+      <div class="lang" data-lang><p class="q">What audience should we target?</p><p class="a">Will this still sound like us?</p></div>
+    </div>
+    <p class="cap rv">The friction is not only in the interface. It is in the product's mental model.</p>
+
+    <div class="keyline rv pair-gap">
+      <h3>I expected to find a marketing workflow problem. Instead, I found a translation problem.</h3>
+      <p style="margin-top:8px">Small-business owners already understand what makes their business meaningful. The product's job is to translate that understanding into useful work.</p>
+    </div>
+  </section>
+
+  <!-- ═════════════════ THE TRANSLATION MODEL ════════════════════ -->
+  <section class="sec" id="model">
+    <p class="label rv">The translation model</p>
+    <h2 class="rv">Do not ask owners to plan marketing. Learn the story they already tell every day.</h2>
+
+    <div class="model rv stagger" data-model>
+      <div class="step"><p class="n">01</p><div><h3>Owner context</h3><p>Words, website, Instagram, reviews, schedule, and customer history.</p></div></div>
+      <div class="step"><p class="n">02</p><div><h3>Business essence</h3><p>Bridgeway identifies the values, audience truths, and language that make the business distinct.</p></div></div>
+      <div class="step"><p class="n">03</p><div><h3>Marketing direction</h3><p>It translates that understanding into a focused strategy.</p></div></div>
+      <div class="step"><p class="n">04</p><div><h3>Useful work</h3><p>It prepares relevant drafts in the places where the business already operates.</p></div></div>
+      <div class="step"><p class="n">05</p><div><h3>Owner approval</h3><p>Nothing is published or sent until the owner reviews it.</p></div></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ PRINCIPLES ═════════════════════════ -->
+  <section class="sec" id="principles">
+    <p class="label rv">Stage 02. The strategy</p>
+    <h2 class="rv">Our approach</h2>
+    <p class="rv">An intentional shift toward simplicity, focusing strictly on high-impact insights.</p>
+
+    <div class="grid2 rv stagger">
+      <div class="card"><p class="label b">01</p><h3>People use their phone first</h3><p>Onboarding happens on the go. Small business owners manage their physical spaces, clients, and assets away from their desks. Mobile-first design guarantees onboarding is accessible instantly, anywhere.</p></div>
+      <div class="card"><p class="label b">02</p><h3>Onboarding needs to be short</h3><p>Cut the noise. Minimize the steps down to a single narrative flow: establish business name, select tone alignment, identify customer takeaway thoughts, link core channels, and provide direct validation.</p></div>
+    </div>
+
+    <p class="label rv pair-gap">Principles of intentional UI</p>
+    <div class="rowlist rv stagger">
+      <div class="row"><p class="k">Language</p><p class="v"><b>Meet owners in their language</b>Translate professional marketing actions into native human objectives. Jargon is cognitive overhead.</p></div>
+      <div class="row"><p class="k">Sequence</p><p class="v"><b>Reflect before recommending</b>Show owners what you understand about them before prompting for more decisions. Ground the relationship.</p></div>
+      <div class="row"><p class="k">Attention</p><p class="v"><b>Work quietly and ask deliberately</b>Automate downstream structural choices. Reserve human attention for curation and intent.</p></div>
+      <div class="row"><p class="k">Value</p><p class="v"><b>Start with owner words and recognizable situations</b>Deliver instantly tangible assets. Let value precede setup configuration.</p></div>
+      <div class="row"><p class="k">Control</p><p class="v"><b>Show what Bridgeway understood before it recommends work</b>AI is the engine, but the business owner always holds the steering wheel. Build absolute confidence.</p></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ THE FLOW ═══════════════════════════ -->
+  <section class="sec" id="flow">
+    <p class="label rv">Stage 03. The shift</p>
+    <h2 class="rv">Instead of asking for a campaign, Bridgeway asks what feels true.</h2>
+    <p class="rv">Five questions, answered in the owner's own words. Every screen below is from the prototype.</p>
+
+    <div class="flowrig" data-flow style="height:560vh">
+      <div class="flowstage">
+        <div class="flowgrid">
+          <div class="flowcopy">
+            <div class="fc on" data-fc="0">
+              <span class="label">01. The beginning</span>
+              <h3>Which beginning sounds most like you?</h3>
+              <p>Four openings, written the way owners describe themselves. The owner can answer without learning marketing terminology.</p>
+            </div>
+            <div class="fc" data-fc="1">
+              <span class="label">02. Voice and feeling</span>
+              <h3>The owner sets direction without writing a strategy.</h3>
+              <p>How should you sound. What should lead the story. What matters most right now. Three controls, and a plain sentence that states the direction back to them.</p>
+            </div>
+            <div class="fc" data-fc="2">
+              <span class="label">03. Feeling</span>
+              <h3>What should people feel?</h3>
+              <p>The emotional outcome is named by the owner in ordinary words. Deep trust and craft. Quiet authenticity. It stays their answer instead of becoming a targeting parameter.</p>
+            </div>
+            <div class="fc" data-fc="3">
+              <span class="label">04. The takeaway</span>
+              <h3>What should stay with people?</h3>
+              <p>One customer takeaway thought, chosen the way a customer would say it. "I felt welcome here." This is the closest thing to a campaign objective in the whole flow.</p>
+            </div>
+            <div class="fc" data-fc="4">
+              <span class="label">05. Sources</span>
+              <h3>Where does your story already live?</h3>
+              <p>Owner context: words, website, Instagram, reviews, schedule, and customer history. Sources connect last, and the boundary sits on the screen. Nothing is posted or changed without approval.</p>
+            </div>
+            <div class="fc" data-fc="5">
+              <span class="label">06. Confirmation</span>
+              <h3>The flow ends with understanding, not a dashboard.</h3>
+              <p>Story shaped, marketing direction ready, Instagram and website connected. Bridgeway states back what it understood, with one door into the work and a way to revisit any answer.</p>
+            </div>
+          </div>
+
+          <div class="flowshots" data-shots>
+            <img class="shot on" data-scr="0" src="assets/bridgeway/flow/step-01.jpg" alt="Screen 1 of 5: which beginning sounds most like you?">
+            <img class="shot" data-scr="1" src="assets/bridgeway/flow/step-02.jpg" alt="Screen 2 of 5: shape how your story shows up" loading="lazy">
+            <img class="shot" data-scr="2" src="assets/bridgeway/flow/step-03.jpg" alt="Screen 3 of 5: what should people feel?" loading="lazy">
+            <img class="shot" data-scr="3" src="assets/bridgeway/flow/step-04.jpg" alt="Screen 4 of 5: what should stay with people?" loading="lazy">
+            <img class="shot" data-scr="4" src="assets/bridgeway/flow/step-05.jpg" alt="Screen 5 of 5: where does your story already live?" loading="lazy">
+            <img class="shot" data-scr="5" src="assets/bridgeway/flow/step-06.jpg" alt="Confirmation: you're all set" loading="lazy">
+          </div>
+        </div>
+
+        <div class="dots" data-dots role="tablist" aria-label="Onboarding steps">
+          <button class="on" data-jump="0" aria-label="Step 1"><i></i></button>
+          <button data-jump="1" aria-label="Step 2"><i></i></button>
+          <button data-jump="2" aria-label="Step 3"><i></i></button>
+          <button data-jump="3" aria-label="Step 4"><i></i></button>
+          <button data-jump="4" aria-label="Step 5"><i></i></button>
+          <button data-jump="5" aria-label="Step 6"><i></i></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ USEFUL WORK ════════════════════════ -->
+  <section class="sec" id="work">
+    <p class="label rv">Reflection and alignment</p>
+    <div class="keyline rv">
+      <h3>Before recommending anything, Bridgeway reflects what it understood.</h3>
+      <p style="margin-top:8px">"Unbound is not simply selling workouts. It helps people believe they can become stronger than they think. The business is built around personal attention, steady progress, and the feeling that everyone belongs on the floor."</p>
+      <p class="cap" style="margin-top:10px">Draft reflection based on your answers and connected business sources.</p>
+    </div>
+
+    <p class="label rv pair-gap">Useful work</p>
+    <h2 class="rv">The first reward is work, not a dashboard.</h2>
+    <p class="rv">Instead of giving you empty text input fields or tracking configurations, Bridgeway immediately displays finished work based on your answers.</p>
+
+    <div class="drafts rv stagger">
+      <article class="dcard">
+        <div class="top"><span class="kind">Instagram story</span><span class="state">Ready</span></div>
+        <div class="body">Tuesday strength. Two spots. Ten people, one room, barbells.
+          <span class="quiet">Photo: chalk dust, barbells racked and ready.</span></div>
+        <div class="foot"><span>Local queue</span><button class="btn" data-approve>Approve</button></div>
+      </article>
+      <article class="dcard">
+        <div class="top"><span class="kind">Website hero</span><span class="state">Drafted</span></div>
+        <div class="body">Strength becomes possible when coaching feels personal.
+          <span class="quiet">Built around attention, progress, and belonging.</span></div>
+        <div class="foot"><span>Squarespace</span><button class="btn" data-approve>Publish</button></div>
+      </article>
+      <article class="dcard">
+        <div class="top"><span class="kind">Review reply</span><span class="state">Pending</span></div>
+        <div class="body">Danielle, that is fair. From September 2 we are adding a 5:45 AM Tuesday and Thursday session.
+          <span class="quiet">Incoming: "the 6 AM class is always full."</span></div>
+        <div class="foot"><span>Google Maps</span><button class="btn" data-approve>Send</button></div>
+      </article>
+    </div>
+
+    <p class="label rv pair-gap">Why we drafted this</p>
+    <h2 class="rv">AI prepares. Alex decides.</h2>
+    <p class="rv">Draft only. Nothing has been published. Every draft carries its reasoning, so approval is a judgment call and not a leap of faith.</p>
+    <div class="rowlist rv stagger">
+      <div class="row"><p class="k">Receipt 01</p><p class="v"><b>Based on confirmed event details</b>The community PR day is on Alex's calendar. Bridgeway drafted around the confirmed date and format.</p></div>
+      <div class="row"><p class="k">Receipt 02</p><p class="v"><b>Matches Unbound's community-led voice</b>Uses language that reflects how Alex talks about the gym: coaching, belonging, showing up together.</p></div>
+      <div class="row"><p class="k">Receipt 03</p><p class="v"><b>Uses approved onboarding language</b>The tone and vocabulary come from what Alex confirmed during onboarding. Nothing was invented.</p></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ THE RETURN ═════════════════════════ -->
+  <section class="sec" id="return">
+    <p class="label rv">Act IV. The return</p>
+    <h2 class="rv">By morning, they are back to the work only they can do.</h2>
+    <p class="rv">While the room was empty, Bridgeway worked the pile: a member six weeks gone, a review five months unanswered, a message unread for three weeks. Drafted, never sent.</p>
+
+    <div class="film rv" data-film>
+      <img class="fp on" src="assets/bridgeway/plate-01.jpg" alt="The studio at 8:40 pm, the last class finished">
+      <img class="fp" src="assets/bridgeway/plate-04.jpg" alt="The same room after midnight" loading="lazy">
+      <img class="fp" src="assets/bridgeway/plate-07.jpg" alt="Morning light across the studio floor" loading="lazy">
+      <div class="film-in">
+        <p class="label">The overnight film</p>
+        <p class="film-line" data-filmline>8:40. The room is done. The rest isn't.</p>
+        <a class="link solid" href="https://bridgeway-mu.vercel.app/" target="_blank" rel="noopener">Watch the night ↗</a>
+      </div>
+      <span class="film-bar" data-filmbar><i></i></span>
+    </div>
+
+    <div class="morning rv stagger" data-morning>
+      <figure style="margin:0"><div class="ph wipe in"><img src="assets/bridgeway/deck/morning-maya.jpg" alt="Hands shaping dough" loading="lazy"></div><b>Maya</b><span>Maya is baking.</span></figure>
+      <figure style="margin:0"><div class="ph wipe in"><img src="assets/bridgeway/deck/morning-alex.jpg" alt="Chalked hands on a barbell" loading="lazy"></div><b>Alex</b><span>Alex is coaching.</span></figure>
+      <figure style="margin:0"><div class="ph wipe in"><img src="assets/bridgeway/deck/morning-noor.jpg" alt="Espresso pouring into a glass" loading="lazy"></div><b>Noor</b><span>Noor is serving the morning rush.</span></figure>
+      <figure style="margin:0"><div class="ph wipe in"><img src="assets/bridgeway/deck/morning-sofia.jpg" alt="Hands trimming a rose stem" loading="lazy"></div><b>Sofia</b><span>Sofia is arranging every stem by hand.</span></figure>
+    </div>
+    <p class="cap rv">Bridgeway has prepared the unfinished marketing work for their review.</p>
+
+    <div class="closing rv">
+      <h2>Do not turn every owner into a marketer. Let owners keep doing what only they can do. Let Bridgeway carry the unfinished work.</h2>
+      <h3 style="color:var(--blue); margin-top:16px">Work ready. Judgment theirs.</h3>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ REFLECTION ═════════════════════════ -->
+  <section class="sec" id="reflection">
+    <p class="label rv">Appendix. Research foundation</p>
+    <h2 class="rv">Market context</h2>
+
+    <div class="stat rv stagger">
+      <div><p class="v"><span data-count="82" data-dur="1200">0</span>%</p><p>Of small business owners handle marketing alone, citing a steep learning curve and time constraints. <span style="color:var(--ink-faint)">SBA survey</span></p></div>
+      <div><p class="v"><span data-count="4.2" data-dec="1" data-dur="1200">0</span> hours</p><p>Average weekly time spent wrangling marketing tools instead of focusing on core operational crafts. <span style="color:var(--ink-faint)">Industry report</span></p></div>
+      <div><p class="v"><span data-count="36.2" data-dec="1" data-dur="1600">0</span>M</p><p>Small businesses operate across the United States. Behind many of them is an owner doing the marketing after the real work is finished. <span style="color:var(--ink-faint)">U.S. SBA, Small Business Profile</span></p></div>
+    </div>
+
+    <p class="label rv pair-gap">Methodology</p>
+    <div class="rowlist rv stagger">
+      <div class="row"><p class="k">01 Audit</p><p class="v"><b>Existing product audit</b>Heuristic evaluation of the current onboarding flow to identify where the product asks owners to think like marketers.</p></div>
+      <div class="row"><p class="k">02 Redesign</p><p class="v"><b>First-principles redesign</b>Reframing onboarding as a translation layer that converts owner language into marketing work.</p></div>
+      <div class="row"><p class="k">03 Scenarios</p><p class="v"><b>Composite scenarios</b>Alex, Maya, Noor, and Sofia are composite personas synthesized from observed small-business patterns. They are not real individuals.</p></div>
+    </div>
+
+    <p class="label rv pair-gap">Evidence discipline</p>
+    <div class="rowlist rv stagger">
+      <div class="row"><p class="k">Observed</p><p class="v">Onboarding begins with marketing interests and configuration before establishing business context.</p></div>
+      <div class="row"><p class="k">Inferred</p><p class="v">Owners must translate their business needs into the product's marketing language.</p></div>
+      <div class="row"><p class="k">Hypothesis</p><p class="v">Beginning with owner language will improve trust and reduce time to first useful work.</p></div>
+      <div class="row"><p class="k">Not validated</p><p class="v">The quality of the reflection, the minimum context required, and whether the model works consistently across business types.</p></div>
+    </div>
+
+    <p class="label rv pair-gap">What I would validate next</p>
+    <div class="rowlist rv stagger">
+      <div class="row"><p class="k">Recognition</p><p class="v">Can owners recognize themselves in the opening choices without additional explanation?</p></div>
+      <div class="row"><p class="k">Trust</p><p class="v">Does the reflection feel accurate enough for owners to connect business sources?</p></div>
+      <div class="row"><p class="k">Control</p><p class="v">Can owners clearly explain what Bridgeway will prepare and what it will never send without approval?</p></div>
+      <div class="row"><p class="k">Measures</p><p class="v">Time to first useful draft. Percentage of drafts approved, edited, held, or rejected. Owner comprehension of automation boundaries. Confidence before and after the reflection. Performance across different business categories.</p></div>
+      <div class="row"><p class="k">Tools</p><p class="v">Claude and ChatGPT for thinking and synthesis. Figma and Codex for design and prototyping. Higgsfield and Google Flow for motion exploration.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot">
+      <div>
+        <p style="font-family:var(--serif); font-weight:700; font-size:19px; color:var(--ink)">Bridgeway</p>
+        <p style="font-size:13px; color:var(--ink-faint); margin-top:2px">Product design concept for Adobe · Gauravi Linjara · August 2026</p>
+      </div>
+      <div class="links">
+        <a class="link" href="https://bridgeway-mu.vercel.app/" target="_blank" rel="noopener">Overnight story ↗</a>
+        <a class="link" href="https://gauravi.design" target="_blank" rel="noopener">gauravi.design ↗</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</main>
+
+<script>
+/* ============================================================
+   One rAF loop: reveals, the persona scrub, the phone scrub,
+   the clock, and the rail's scroll-spy.
+   ============================================================ */
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var wide = matchMedia('(min-width: 821px)');
+
+  /* ---- reveal (swept, so a fast flick or anchor jump can't
+          strand a section at opacity 0) ------------------------ */
+  var pending = [].slice.call(document.querySelectorAll('.rv, .stagger, .wipe, [data-lang], [data-count]'));
+  function sweep(vh){
+    for(var i = pending.length - 1; i >= 0; i--){
+      var el = pending[i];
+      if(el.getBoundingClientRect().top > vh * .88) continue;
+      el.classList.add('in');
+      if(el.hasAttribute('data-count')) countUp(el);
+      if(el.hasAttribute('data-morning')) el.classList.add('lit');
+      pending.splice(i, 1);
+    }
+  }
+
+  function countUp(el){
+    var to = parseFloat(el.dataset.count), dec = +(el.dataset.dec || 0), dur = +(el.dataset.dur || 1200), t0 = 0;
+    if(reduce){ el.textContent = to.toFixed(dec); return; }
+    requestAnimationFrame(function step(t){
+      if(!t0) t0 = t;
+      var p = Math.min((t - t0) / dur, 1), e = 1 - Math.pow(1 - p, 3);
+      el.textContent = (to * e).toFixed(dec);
+      if(p < 1) requestAnimationFrame(step);
+    });
+  }
+
+  /* ---- scroll-spy rail: read in the rAF loop, not an observer.
+          Observers only fire on a crossing, so a jump or a fast
+          flick can leave the rail pointing at the wrong section. */
+  var links = [].slice.call(document.querySelectorAll('#toc a'));
+  var marks = links.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  var lastSpy = -1;
+  function spy(vh){
+    var at = 0;
+    for(var i = 0; i < marks.length; i++){
+      if(marks[i] && marks[i].getBoundingClientRect().top <= vh * .4) at = i;
+    }
+    if(at === lastSpy) return;
+    lastSpy = at;
+    links.forEach(function(a, k){ a.classList.toggle('on', k === at); });
+  }
+
+  /* ---- scrubbed pieces ------------------------------------- */
+  var rail = document.querySelector('[data-rail]');
+  var track = document.querySelector('[data-track]');
+  var scrub = document.querySelector('[data-scrub]');
+  var model = document.querySelector('[data-model]');
+  var nightrig = document.querySelector('[data-nightrig]');
+  var night = document.querySelector('[data-night]');
+  var clock = document.querySelector('[data-clock]');
+  var nightbar = document.querySelector('[data-nightbar]');
+  var film = document.querySelector('[data-film]');
+  var plates = [].slice.call(document.querySelectorAll('.film .fp'));
+  var filmline = document.querySelector('[data-filmline]');
+  var filmbar = document.querySelector('[data-filmbar]');
+  var FILM = ["8:40. The room is done. The rest isn't.",
+              "11:04 pm to 6:20 am. You were asleep.",
+              "Wake up to work ready for your yes."];
+  var lastPlate = 0, lastClock = '';
+  var flow = document.querySelector('[data-flow]');
+  var screens = [].slice.call(document.querySelectorAll('[data-scr]'));
+  var copies = [].slice.call(document.querySelectorAll('[data-fc]'));
+  var dots = [].slice.call(document.querySelectorAll('[data-dots] button'));
+  var CLOCKS = ['8:52','9:04','9:19','9:31'];
+  var lastFlow = -1, ticking = false;
+
+  function clamp(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
+
+  function frame(){
+    ticking = false;
+    var vh = window.innerHeight;
+    sweep(vh);
+    spy(vh);
+
+    var live = wide.matches && !reduce;
+
+    /* the persona rail slides while it crosses the viewport */
+    if(rail && track){
+      if(live){
+        var r = rail.getBoundingClientRect();
+        var p = clamp((vh - r.top) / (vh + r.height));
+        var dist = Math.max(track.scrollWidth - rail.clientWidth, 0);
+        track.style.transform = 'translate3d(' + (-p * dist) + 'px,0,0)';
+        if(scrub) scrub.style.setProperty('--p', p);
+      } else {
+        track.style.transform = '';
+      }
+    }
+
+    /* the translation model draws its spine as it passes */
+    if(model){
+      var mr = model.getBoundingClientRect();
+      model.style.setProperty('--p', clamp((vh * .8 - mr.top) / (mr.height * .85 || 1)));
+    }
+
+    /* the hero film runs its own night as the page opens */
+    if(film && plates.length){
+      var flr = film.getBoundingClientRect();
+      var flp = clamp(-flr.top / (flr.height + vh * .2));
+      var pi = Math.min(plates.length - 1, Math.floor(flp * plates.length * .999));
+      if(filmbar) filmbar.style.setProperty('--p', flp);
+      if(pi !== lastPlate){
+        lastPlate = pi;
+        plates.forEach(function(im, k){ im.classList.toggle('on', k === pi); });
+        if(filmline){
+          filmline.classList.add('swap');
+          setTimeout(function(){ filmline.textContent = FILM[pi]; filmline.classList.remove('swap'); }, 320);
+        }
+      }
+    }
+
+    /* the room drifts, the clock creeps, the night fills a bar */
+    if(nightrig && night){
+      var nr = nightrig.getBoundingClientRect();
+      var np = clamp(-nr.top / (nr.height - vh || 1));
+      var im = night.querySelector('img');
+      if(im) im.style.setProperty('--drift', (-46 * np) + 'px');
+      if(nightbar) nightbar.style.setProperty('--p', np);
+      if(clock){
+        var t = CLOCKS[Math.min(CLOCKS.length - 1, Math.floor(np * CLOCKS.length * .999))];
+        if(t !== lastClock){
+          lastClock = t;
+          var box = clock.parentElement;
+          box.classList.add('tick');
+          setTimeout(function(){ clock.textContent = t; box.classList.remove('tick'); }, 60);
+        }
+      }
+    }
+
+    /* six screens across the pinned run */
+    if(flow && screens.length){
+      var fr = flow.getBoundingClientRect();
+      var fp = clamp(-fr.top / (fr.height - vh || 1));
+      var i = Math.min(screens.length - 1, Math.floor(fp * screens.length * .999));
+      if(i !== lastFlow){
+        lastFlow = i;
+        screens.forEach(function(s, k){ s.classList.toggle('on', k === i); });
+        copies.forEach(function(c, k){ c.classList.toggle('on', k === i); });
+        dots.forEach(function(d, k){ d.classList.toggle('on', k === i); });
+      }
+    }
+  }
+  function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(frame); } }
+  addEventListener('scroll', onScroll, {passive:true});
+  addEventListener('resize', onScroll);
+  frame();
+
+  /* ---- the dots are controls, not decoration --------------- */
+  if(flow){
+    document.querySelectorAll('[data-jump]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var n = +btn.dataset.jump, span = flow.offsetHeight - window.innerHeight;
+        var top = flow.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({top: top + span * ((n + .5) / screens.length), behavior:'smooth'});
+      });
+    });
+  }
+
+  /* ---- approve confirms in place --------------------------- */
+  document.querySelectorAll('[data-approve]').forEach(function(btn){
+    var original = btn.textContent;
+    btn.addEventListener('click', function(){
+      if(btn.classList.contains('done')) return;
+      btn.classList.add('done');
+      btn.textContent = '✓ Queued';
+      setTimeout(function(){ btn.classList.remove('done'); btn.textContent = original; }, 2600);
+    });
+  });
+})();
+</script>
+</body>
+</html>
