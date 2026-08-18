@@ -191,6 +191,12 @@ main{padding:0 var(--pad)}
 .row .v{color:var(--ink-mute)}
 .row .v b{color:var(--ink); font-weight:500; display:block; margin-bottom:2px; font-family:var(--sans); font-size:15px}
 
+/* ── AI stack: a quiet closing ledger, not a logo wall ────── */
+.stacklist{margin-top:12px; border-bottom:1px solid var(--line-2)}
+.stacklist .row{grid-template-columns:210px 1fr; padding:22px 0}
+.stacklist .row:first-child{border-top:1px solid var(--line-2)}
+.stacklist .v{font-family:var(--serif); font-size:21px; line-height:1.35; letter-spacing:-.4px; color:var(--ink)}
+
 .stat{display:grid; grid-template-columns:repeat(3,1fr); gap:20px}
 .stat .v{font-family:var(--serif); font-weight:700; font-size:44px; line-height:1.05; color:var(--blue); letter-spacing:-.02em; font-variant-numeric:tabular-nums}
 .stat p{margin-top:8px; font-size:14px}
@@ -394,6 +400,8 @@ footer{margin-top:80px; border-top:1px solid var(--line-2); padding:28px 0 64px}
   .shots,.drafts,.stat{grid-template-columns:1fr}
   .morning{grid-template-columns:1fr 1fr}
   .row{grid-template-columns:1fr; gap:4px}
+  .stacklist .row{grid-template-columns:1fr; gap:5px; padding:18px 0}
+  .stacklist .v{font-size:19px}
   .film{aspect-ratio:4/5}
   .film-line{min-height:3.2em}
   .nightrig{height:170vh}
@@ -513,7 +521,6 @@ footer{margin-top:80px; border-top:1px solid var(--line-2); padding:28px 0 64px}
 
           <article class="landingmoment" data-landing-copy="1">
             <div class="landingcopy">
-              <span class="label">The landing page</span>
               <h2>Start with the owner, not the technology.</h2>
               <p>Maya bakes. Alex coaches. Noor serves. Sofia creates. Bridgeway carries the work that follows them home.</p>
             </div>
@@ -525,7 +532,6 @@ footer{margin-top:80px; border-top:1px solid var(--line-2); padding:28px 0 64px}
 
           <article class="landingmoment" data-landing-copy="2">
             <div class="landingcopy">
-              <span class="label">From recognition to understanding</span>
               <h2>Recognition first. Understanding next.</h2>
               <p>Five questions help Bridgeway understand what makes the business theirs.</p>
             </div>
@@ -864,7 +870,18 @@ footer{margin-top:80px; border-top:1px solid var(--line-2); padding:28px 0 64px}
       <div class="row"><p class="k">Trust</p><p class="v">Does the reflection feel accurate enough for owners to connect business sources?</p></div>
       <div class="row"><p class="k">Control</p><p class="v">Can owners clearly explain what Bridgeway will prepare and what it will never send without approval?</p></div>
       <div class="row"><p class="k">Measures</p><p class="v">Time to first useful draft. Percentage of drafts approved, edited, held, or rejected. Owner comprehension of automation boundaries. Confidence before and after the reflection. Performance across different business categories.</p></div>
-      <div class="row"><p class="k">Tools</p><p class="v">Claude and ChatGPT for thinking and synthesis. Figma and Codex for design and prototyping. Higgsfield and Google Flow for motion exploration.</p></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ AI STACK ═══════════════════════ -->
+  <section class="sec" id="ai-stack">
+    <p class="label rv">Appendix. AI stack</p>
+    <h2 class="rv">The tools behind the work.</h2>
+
+    <div class="rowlist stacklist rv stagger">
+      <div class="row"><p class="k">Thinking and synthesis</p><p class="v">Claude, ChatGPT</p></div>
+      <div class="row"><p class="k">Design and prototyping</p><p class="v">Figma, Codex</p></div>
+      <div class="row"><p class="k">Motion exploration</p><p class="v">Higgsfield, Google Flow</p></div>
     </div>
   </section>
 
