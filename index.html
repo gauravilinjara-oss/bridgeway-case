@@ -150,6 +150,25 @@ main{padding:0 var(--pad)}
 .feature h3{margin:0}
 .feature .sub{margin-top:6px; font-size:14px}
 
+/* ── solution story: recognition before onboarding ────────── */
+.landingrig{position:relative; height:300vh}
+.landingstage{position:sticky; top:0; min-height:100svh; display:flex; flex-direction:column; justify-content:center; gap:22px; padding-block:40px}
+.landingmoments{position:relative; min-height:520px}
+.landingmoment{
+  position:absolute; inset:0; display:grid; grid-template-columns:minmax(0,.72fr) minmax(0,1.28fr);
+  gap:28px; align-items:center; opacity:0; transform:translate3d(0,10px,0);
+  transition:opacity .5s var(--ease), transform .7s var(--ease); pointer-events:none;
+}
+.landingmoment.on{opacity:1; transform:none; pointer-events:auto}
+.landingcopy h2{margin-top:7px}
+.landingcopy p{margin-top:12px; max-width:34ch}
+.landingmedia{position:relative; aspect-ratio:16/10; overflow:hidden; background:#11151B; border:1px solid var(--line-2); box-shadow:0 26px 60px -34px rgba(50,64,79,.46)}
+.landingmedia img{width:100%; height:100%; object-fit:cover}
+.landingcaption{position:absolute; left:14px; bottom:14px; max-width:calc(100% - 28px); padding:7px 10px; border-radius:999px; background:rgba(8,10,14,.72); color:#fff; font-size:11.5px; backdrop-filter:blur(10px)}
+.landingbar{height:2px; background:var(--line); position:relative}
+.landingbar i{position:absolute; inset:0 auto 0 0; width:100%; background:var(--blue); transform-origin:0 50%; transform:scaleX(var(--p,0)); transition:transform .18s linear}
+.landinglink{align-self:flex-start}
+
 /* ── quiet UI pieces ───────────────────────────────────────── */
 .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px}
 .grid4{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
@@ -271,6 +290,11 @@ main{padding:0 var(--pad)}
   transition:opacity .55s var(--ease), transform .7s var(--ease);
 }
 .shot.on{opacity:1; transform:none}
+.shot.confirm-on{animation:confirm-pulse .85s var(--ease) 1}
+@keyframes confirm-pulse{
+  0%,100%{box-shadow:0 2px 8px rgba(50,64,79,.10),0 34px 70px -30px rgba(50,64,79,.40)}
+  50%{box-shadow:0 2px 8px rgba(50,64,79,.10),0 34px 70px -26px rgba(26,77,230,.62)}
+}
 
 .dots{display:flex; gap:6px; justify-content:center}
 .dots button{width:26px; height:14px; padding:6px 0; border:0; background:none; cursor:pointer; display:block}
@@ -380,6 +404,14 @@ footer{margin-top:80px; border-top:1px solid var(--line-2); padding:28px 0 64px}
   .track::-webkit-scrollbar{display:none}
   .track > *{scroll-snap-align:start}
   .scrubbar{display:none}
+  .landingrig{height:auto}
+  .landingstage{position:static; min-height:0; padding-block:28px}
+  .landingmoments{min-height:0; display:flex; gap:14px; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; padding-bottom:8px}
+  .landingmoments::-webkit-scrollbar{display:none}
+  .landingmoment{position:relative; inset:auto; flex:0 0 min(86vw,620px); grid-template-columns:1fr; gap:14px; opacity:1; transform:none; pointer-events:auto; scroll-snap-align:start}
+  .landingmedia{order:-1}
+  .landingcopy p{max-width:none}
+  .landingbar{display:none}
   /* the flow stays pinned on a phone: the copy sits above the screen */
   .flowgrid{grid-template-columns:1fr; gap:16px}
   .flowshots{width:min(200px,52vw)}
@@ -397,13 +429,18 @@ footer{margin-top:80px; border-top:1px solid var(--line-2); padding:28px 0 64px}
   .night img{transform:none !important}
   .film .fp{opacity:0} .film .fp.on{opacity:.82; transform:none}
   .track{transform:none !important; overflow-x:auto}
+  .landingrig{height:auto !important}
+  .landingstage{position:static; min-height:0}
+  .landingmoments{display:flex; flex-direction:column; gap:24px; min-height:0; overflow:visible}
+  .landingmoment{position:relative; inset:auto; display:grid; grid-template-columns:1fr; opacity:1; transform:none; pointer-events:auto}
+  .landingbar{display:none}
   .flowrig{height:auto !important}
   .flowstage{position:static; min-height:0}
   .flowgrid{grid-template-columns:1fr}
   .flowcopy{position:static; min-height:0; display:flex; flex-direction:column; gap:20px}
   .flowshots{height:auto; aspect-ratio:auto; display:flex; flex-direction:column; gap:16px}
   .fc{position:static; opacity:1; transform:none; pointer-events:auto}
-  .shot{position:relative; display:none; opacity:1; transform:none} .shot.on{display:block}
+  .shot{position:relative; display:none; opacity:1; transform:none; animation:none !important} .shot.on{display:block}
 }
 </style>
 </head>
@@ -458,35 +495,54 @@ footer{margin-top:80px; border-top:1px solid var(--line-2); padding:28px 0 64px}
     <p class="lede rv">Project Bridgeway is Adobe's AI marketing agent for small businesses. Before it understands the business, it asks the owner to choose channels, configure tools, and translate their needs into marketing terminology. I redesigned onboarding as a translation layer: five questions in the owner's own words, then useful work prepared for their review.</p>
 
     <p class="label rv pair-gap">Solution</p>
-    <h2 class="rv">Five questions. Then useful work.</h2>
-    <p class="rv">A short mobile conversation replaces more than 25 configuration tasks and disconnected handoffs.</p>
 
-    <div class="feature rv">
-      <div class="stage tall rv wipe"><img src="assets/bridgeway/flow/step-01.jpg" alt="Onboarding asks which beginning sounds most like you" loading="lazy"></div>
-      <div>
-        <h3>The owner can answer without learning marketing terminology.</h3>
-        <p class="sub">Instead of asking for a campaign, Bridgeway asks what feels true.</p>
-      </div>
-    </div>
+    <div class="landingrig" data-landing-story>
+      <div class="landingstage">
+        <div class="landingmoments">
+          <article class="landingmoment on" data-landing-copy="0">
+            <div class="landingcopy">
+              <span class="label">The gap</span>
+              <h2>The product explained the work. It did not make owners feel seen.</h2>
+              <p>Road-trip imagery felt far removed from the people Bridgeway was built for.</p>
+            </div>
+            <figure class="landingmedia" data-landing-screen="0">
+              <img src="assets/bridgeway/landing/owners.png" alt="Bridgeway landing page opening with four small-business owners" loading="lazy">
+              <figcaption class="landingcaption">Owners first. Technology second.</figcaption>
+            </figure>
+          </article>
 
-    <div class="feature rv">
-      <div class="stage tall rv wipe"><img src="assets/bridgeway/flow/step-02.jpg" alt="Three controls set tone, subject and intent, with a plain-language summary" loading="lazy"></div>
-      <div>
-        <h3>The owner sets direction without writing a strategy.</h3>
-        <p class="sub">Familiar, people-led marketing designed to build trust and reach new members.</p>
-      </div>
-    </div>
+          <article class="landingmoment" data-landing-copy="1">
+            <div class="landingcopy">
+              <span class="label">The landing page</span>
+              <h2>Start with the owner, not the technology.</h2>
+              <p>Maya bakes. Alex coaches. Noor serves. Sofia creates. Bridgeway carries the work that follows them home.</p>
+            </div>
+            <figure class="landingmedia" data-landing-screen="1">
+              <img src="assets/bridgeway/landing/alex-night.png" alt="Alex alone in the studio at 8:52 PM with unfinished marketing work" loading="lazy">
+              <figcaption class="landingcaption">The real work is done. The marketing is not.</figcaption>
+            </figure>
+          </article>
 
-    <div class="feature rv">
-      <div class="stage tall rv wipe"><img src="assets/bridgeway/flow/step-05.jpg" alt="Connect Instagram and the website; nothing is posted without approval" loading="lazy"></div>
-      <div>
-        <h3>Nothing is published or sent until the owner reviews it.</h3>
-        <p class="sub">Sources connect after the story is understood, in the places where the business already operates.</p>
+          <article class="landingmoment" data-landing-copy="2">
+            <div class="landingcopy">
+              <span class="label">From recognition to understanding</span>
+              <h2>Recognition first. Understanding next.</h2>
+              <p>Five questions help Bridgeway understand what makes the business theirs.</p>
+            </div>
+            <figure class="landingmedia" data-landing-screen="2">
+              <img src="assets/bridgeway/landing/morning-drafts.png" alt="Alex reviewing Bridgeway drafts the next morning" loading="lazy">
+              <figcaption class="landingcaption">Work ready. Judgment theirs.</figcaption>
+            </figure>
+          </article>
+        </div>
+
+        <div class="landingbar" aria-hidden="true" data-landing-bar><i></i></div>
+        <a class="link landinglink" href="https://bridgeway-mu.vercel.app/" target="_blank" rel="noopener">View the landing page ↗</a>
       </div>
     </div>
 
     <p class="label rv pair-gap">Outcomes</p>
-    <p class="rv">A 25-step, desktop-first setup becomes a five-question mobile conversation. Bridgeway prepares relevant drafts in the places where the business already operates, and nothing is published or sent until the owner reviews it.</p>
+    <p class="rv">A 25-step setup becomes five questions. Bridgeway prepares the work. The owner decides what moves.</p>
   </section>
 
   <!-- ═══════════════════ ACT I. THE SECOND SHIFT ════════════════ -->
@@ -633,61 +689,68 @@ footer{margin-top:80px; border-top:1px solid var(--line-2); padding:28px 0 64px}
   <section class="sec" id="flow">
     <p class="label rv">Stage 03. The shift</p>
     <h2 class="rv">Instead of asking for a campaign, Bridgeway asks what feels true.</h2>
-    <p class="rv">Five questions, answered in the owner's own words. Every screen below is from the prototype.</p>
+    <p class="rv">Five questions in the owner's own words. Every screen below is from the prototype.</p>
 
-    <div class="flowrig" data-flow style="height:560vh">
+    <div class="flowrig" data-flow style="height:650vh">
       <div class="flowstage">
         <div class="flowgrid">
           <div class="flowcopy">
             <div class="fc on" data-fc="0">
-              <span class="label">01. The beginning</span>
-              <h3>Which beginning sounds most like you?</h3>
-              <p>Four openings, written the way owners describe themselves. The owner can answer without learning marketing terminology.</p>
+              <span class="label">Introduction</span>
+              <h3>Start with the business.</h3>
+              <p>Bridgeway confirms the name customers already know.</p>
             </div>
             <div class="fc" data-fc="1">
-              <span class="label">02. Voice and feeling</span>
-              <h3>The owner sets direction without writing a strategy.</h3>
-              <p>How should you sound. What should lead the story. What matters most right now. Three controls, and a plain sentence that states the direction back to them.</p>
+              <span class="label">1 of 5. The beginning</span>
+              <h3>Which beginning sounds most like you?</h3>
+              <p>Choose the truth that feels closest to why the business exists.</p>
             </div>
             <div class="fc" data-fc="2">
-              <span class="label">03. Feeling</span>
-              <h3>What should people feel?</h3>
-              <p>The emotional outcome is named by the owner in ordinary words. Deep trust and craft. Quiet authenticity. It stays their answer instead of becoming a targeting parameter.</p>
+              <span class="label">2 of 5. Direction</span>
+              <h3>Shape how your story shows up.</h3>
+              <p>Three controls turn instinct into a clear marketing direction.</p>
             </div>
             <div class="fc" data-fc="3">
-              <span class="label">04. The takeaway</span>
-              <h3>What should stay with people?</h3>
-              <p>One customer takeaway thought, chosen the way a customer would say it. "I felt welcome here." This is the closest thing to a campaign objective in the whole flow.</p>
+              <span class="label">3 of 5. Feeling</span>
+              <h3>What should people feel?</h3>
+              <p>Name the emotional outcome in ordinary words.</p>
             </div>
             <div class="fc" data-fc="4">
-              <span class="label">05. Sources</span>
-              <h3>Where does your story already live?</h3>
-              <p>Owner context: words, website, Instagram, reviews, schedule, and customer history. Sources connect last, and the boundary sits on the screen. Nothing is posted or changed without approval.</p>
+              <span class="label">4 of 5. The takeaway</span>
+              <h3>What should stay with people?</h3>
+              <p>Choose the thought you want customers to carry away.</p>
             </div>
             <div class="fc" data-fc="5">
-              <span class="label">06. Confirmation</span>
-              <h3>The flow ends with understanding, not a dashboard.</h3>
-              <p>Story shaped, marketing direction ready, Instagram and website connected. Bridgeway states back what it understood, with one door into the work and a way to revisit any answer.</p>
+              <span class="label">5 of 5. Sources</span>
+              <h3>Where does your story already live?</h3>
+              <p>Connect the places that already hold the business's voice.</p>
+            </div>
+            <div class="fc" data-fc="6">
+              <span class="label">Confirmation</span>
+              <h3>Bridgeway reflects what it understood.</h3>
+              <p>The story is shaped. The direction is ready. The owner stays in control.</p>
             </div>
           </div>
 
           <div class="flowshots" data-shots>
-            <img class="shot on" data-scr="0" src="assets/bridgeway/flow/step-01.jpg" alt="Screen 1 of 5: which beginning sounds most like you?">
-            <img class="shot" data-scr="1" src="assets/bridgeway/flow/step-02.jpg" alt="Screen 2 of 5: shape how your story shows up" loading="lazy">
-            <img class="shot" data-scr="2" src="assets/bridgeway/flow/step-03.jpg" alt="Screen 3 of 5: what should people feel?" loading="lazy">
-            <img class="shot" data-scr="3" src="assets/bridgeway/flow/step-04.jpg" alt="Screen 4 of 5: what should stay with people?" loading="lazy">
-            <img class="shot" data-scr="4" src="assets/bridgeway/flow/step-05.jpg" alt="Screen 5 of 5: where does your story already live?" loading="lazy">
-            <img class="shot" data-scr="5" src="assets/bridgeway/flow/step-06.jpg" alt="Confirmation: you're all set" loading="lazy">
+            <img class="shot on" data-scr="0" data-flow-screen="0" src="assets/bridgeway/flow/business-name.png" alt="Bridgeway asks for the business name">
+            <img class="shot" data-scr="1" data-flow-screen="1" src="assets/bridgeway/flow/story-beginning.png" alt="Question 1 of 5: which beginning sounds most like you?" loading="lazy">
+            <img class="shot" data-scr="2" data-flow-screen="2" src="assets/bridgeway/flow/marketing-direction.png" alt="Question 2 of 5: shape how your story shows up" loading="lazy">
+            <img class="shot" data-scr="3" data-flow-screen="3" src="assets/bridgeway/flow/emotional-outcome.png" alt="Question 3 of 5: what should people feel?" loading="lazy">
+            <img class="shot" data-scr="4" data-flow-screen="4" src="assets/bridgeway/flow/customer-feeling.png" alt="Question 4 of 5: what should stay with people?" loading="lazy">
+            <img class="shot" data-scr="5" data-flow-screen="5" src="assets/bridgeway/flow/connect-sources.png" alt="Question 5 of 5: where does your story already live?" loading="lazy">
+            <img class="shot" data-scr="6" data-flow-screen="6" src="assets/bridgeway/flow/confirmation.png" alt="Confirmation that Bridgeway understands the business" loading="lazy">
           </div>
         </div>
 
         <div class="dots" data-dots role="tablist" aria-label="Onboarding steps">
-          <button class="on" data-jump="0" aria-label="Step 1"><i></i></button>
-          <button data-jump="1" aria-label="Step 2"><i></i></button>
-          <button data-jump="2" aria-label="Step 3"><i></i></button>
-          <button data-jump="3" aria-label="Step 4"><i></i></button>
-          <button data-jump="4" aria-label="Step 5"><i></i></button>
-          <button data-jump="5" aria-label="Step 6"><i></i></button>
+          <button class="on" role="tab" aria-selected="true" data-jump="0" aria-label="Introduction"><i></i></button>
+          <button role="tab" aria-selected="false" data-jump="1" aria-label="Question 1 of 5"><i></i></button>
+          <button role="tab" aria-selected="false" data-jump="2" aria-label="Question 2 of 5"><i></i></button>
+          <button role="tab" aria-selected="false" data-jump="3" aria-label="Question 3 of 5"><i></i></button>
+          <button role="tab" aria-selected="false" data-jump="4" aria-label="Question 4 of 5"><i></i></button>
+          <button role="tab" aria-selected="false" data-jump="5" aria-label="Question 5 of 5"><i></i></button>
+          <button role="tab" aria-selected="false" data-jump="6" aria-label="Confirmation"><i></i></button>
         </div>
       </div>
     </div>
@@ -888,12 +951,15 @@ footer{margin-top:80px; border-top:1px solid var(--line-2); padding:28px 0 64px}
               "11:04 pm to 6:20 am. You were asleep.",
               "Wake up to work ready for your yes."];
   var lastPlate = 0, lastClock = '';
+  var landing = document.querySelector('[data-landing-story]');
+  var landingMoments = [].slice.call(document.querySelectorAll('.landingmoment'));
+  var landingbar = document.querySelector('[data-landing-bar]');
   var flow = document.querySelector('[data-flow]');
   var screens = [].slice.call(document.querySelectorAll('[data-scr]'));
   var copies = [].slice.call(document.querySelectorAll('[data-fc]'));
   var dots = [].slice.call(document.querySelectorAll('[data-dots] button'));
   var CLOCKS = ['8:52','9:04','9:19','9:31'];
-  var lastFlow = -1, ticking = false;
+  var lastLanding = -1, lastFlow = -1, ticking = false;
 
   function clamp(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
 
@@ -958,7 +1024,19 @@ footer{margin-top:80px; border-top:1px solid var(--line-2); padding:28px 0 64px}
       }
     }
 
-    /* six screens across the pinned run */
+    /* three owner moments connect recognition to onboarding */
+    if(landing && landingMoments.length && live){
+      var lr = landing.getBoundingClientRect();
+      var lp = clamp(-lr.top / (lr.height - vh || 1));
+      var li = Math.min(landingMoments.length - 1, Math.floor(lp * landingMoments.length * .999));
+      if(landingbar) landingbar.style.setProperty('--p', lp);
+      if(li !== lastLanding){
+        lastLanding = li;
+        landingMoments.forEach(function(moment, k){ moment.classList.toggle('on', k === li); });
+      }
+    }
+
+    /* seven screens across the pinned run */
     if(flow && screens.length){
       var fr = flow.getBoundingClientRect();
       var fp = clamp(-fr.top / (fr.height - vh || 1));
@@ -966,8 +1044,14 @@ footer{margin-top:80px; border-top:1px solid var(--line-2); padding:28px 0 64px}
       if(i !== lastFlow){
         lastFlow = i;
         screens.forEach(function(s, k){ s.classList.toggle('on', k === i); });
+        screens.forEach(function(s, k){
+          s.classList.toggle('confirm-on', k === screens.length - 1 && k === i);
+        });
         copies.forEach(function(c, k){ c.classList.toggle('on', k === i); });
-        dots.forEach(function(d, k){ d.classList.toggle('on', k === i); });
+        dots.forEach(function(d, k){
+          d.classList.toggle('on', k === i);
+          d.setAttribute('aria-selected', k === i ? 'true' : 'false');
+        });
       }
     }
   }
