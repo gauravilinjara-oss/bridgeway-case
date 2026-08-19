@@ -81,6 +81,16 @@ test('uses plain-language chapter navigation and credits the AI agent team', () 
   assert.match(html, /A team of AI agents/);
 });
 
+test('AI Stack navigation targets the AI Stack appendix', () => {
+  assert.match(html, /<a href="#ai-stack">AI Stack<\/a>/);
+  assert.match(html, /<section class="sec" id="ai-stack">[\s\S]*?Appendix\. AI stack/);
+  assert.doesNotMatch(html, /<a href="#work">AI Stack<\/a>/);
+  assert.ok(
+    html.indexOf('<a href="#reflection">Reflection</a>') < html.indexOf('<a href="#ai-stack">AI Stack</a>'),
+    'the appendix link must follow the main case-study chapters'
+  );
+});
+
 test('adds the field interview to the research methodology', () => {
   assert.match(html, /04 Field interview/);
   assert.match(html, /On-site contextual interview/);
