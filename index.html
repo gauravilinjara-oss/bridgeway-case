@@ -248,6 +248,51 @@ main{padding:0 var(--pad)}
 .night p{color:rgba(255,255,255,.8); max-width:52ch; margin-top:12px}
 .night p strong{color:#fff}
 
+/* ── field interview: the composite story meets real evidence ─ */
+.fieldnote{
+  margin-top:28px; padding:clamp(26px,4vw,44px); border-radius:30px; overflow:hidden;
+  background:
+    radial-gradient(circle at 84% 18%, rgba(42,104,255,.24), transparent 34%),
+    linear-gradient(145deg,#10141C 0%,#080A0F 68%);
+  color:rgba(255,255,255,.7); display:grid; grid-template-columns:minmax(0,1fr) minmax(220px,.56fr);
+  gap:clamp(28px,5vw,56px); align-items:center; position:relative;
+  box-shadow:0 30px 70px -44px rgba(18,30,54,.75);
+}
+.fieldnote::before{content:""; position:absolute; inset:0; pointer-events:none; border:1px solid rgba(255,255,255,.12); border-radius:inherit}
+.fieldcopy{position:relative; z-index:1}
+.fieldcopy .label{color:#76A0FF}
+.fieldcopy h2{color:#fff; margin-top:10px; max-width:14ch; font-size:clamp(30px,5vw,44px)}
+.fieldlede{font-size:17px; line-height:1.55; margin-top:16px; max-width:40ch}
+.fieldthesis{margin-top:24px; padding:2px 0 2px 18px; border-left:2px solid #5E8EFF; color:#fff; font-size:18px; line-height:1.5; max-width:39ch}
+.fieldtrace{margin-top:28px; border-top:1px solid rgba(255,255,255,.13)}
+.fieldtrace .trace{display:grid; grid-template-columns:92px 1fr; gap:14px; padding:13px 0; border-bottom:1px solid rgba(255,255,255,.1)}
+.fieldtrace .k{font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#76A0FF}
+.fieldtrace .v{font-size:13.5px; color:rgba(255,255,255,.72)}
+.fieldactions{display:flex; flex-wrap:wrap; align-items:center; gap:14px; margin-top:26px}
+.fieldactions .link{appearance:none; cursor:pointer}
+.fieldvideo{position:relative; z-index:1; width:min(100%,286px); justify-self:end}
+.fieldvideo-trigger{appearance:none; border:1px solid rgba(255,255,255,.28); padding:0; width:100%; aspect-ratio:9/16; display:block; cursor:pointer; overflow:hidden; border-radius:24px; background:#090B10; position:relative; box-shadow:0 30px 64px -24px rgba(0,0,0,.76); color:#fff}
+.fieldvideo-trigger video{width:100%; height:100%; object-fit:cover; display:block; filter:saturate(.82) contrast(1.04); transform:scale(1.015); transition:transform 1.2s var(--ease), filter .8s var(--ease)}
+.fieldvideo-trigger:hover video{transform:scale(1.05); filter:saturate(1) contrast(1.02)}
+.fieldvideo-trigger::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg,transparent 48%,rgba(5,7,11,.86)); pointer-events:none}
+.fieldplay{position:absolute; left:18px; right:18px; bottom:16px; z-index:2; display:flex; justify-content:space-between; align-items:center; gap:12px; text-align:left; font-size:12px; font-weight:500; letter-spacing:.02em}
+.fieldplay i{width:38px; height:38px; border-radius:50%; background:#fff; color:#0B0D11; display:grid; place-items:center; font-style:normal; font-size:14px; flex:none; transition:transform .35s var(--spring), background .3s}
+.fieldvideo-trigger:hover .fieldplay i{transform:scale(1.1); background:#76A0FF}
+.fieldmeta{display:flex; justify-content:space-between; gap:12px; margin-top:10px; color:rgba(255,255,255,.46); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase}
+
+.interviewdialog{width:min(1080px,calc(100vw - 32px)); max-width:none; max-height:calc(100svh - 32px); padding:0; border:1px solid rgba(255,255,255,.16); border-radius:28px; color:#fff; background:#090B10; overflow:auto; box-shadow:0 40px 120px rgba(0,0,0,.7)}
+.interviewdialog::backdrop{background:rgba(5,7,11,.82); backdrop-filter:blur(12px)}
+.interviewdialog[open]{animation:dialog-in .5s var(--ease) both}
+@keyframes dialog-in{from{opacity:0; transform:translateY(18px) scale(.98)}to{opacity:1; transform:none}}
+.interviewclose{position:sticky; top:14px; float:right; z-index:4; margin:14px 14px -58px 0; width:44px; height:44px; border:1px solid rgba(255,255,255,.2); border-radius:50%; background:rgba(10,12,17,.72); color:#fff; font:500 22px/1 var(--sans); cursor:pointer; backdrop-filter:blur(12px)}
+.interviewinner{display:grid; grid-template-columns:minmax(260px,.72fr) minmax(300px,1fr); gap:clamp(28px,5vw,64px); align-items:center; min-height:min(760px,calc(100svh - 34px)); padding:clamp(26px,5vw,64px)}
+.interviewmedia{display:grid; place-items:center}
+.interviewmedia video{display:block; width:min(100%,380px); max-height:78svh; aspect-ratio:9/16; object-fit:contain; background:#030405; border-radius:20px}
+.interviewcopy .label{color:#76A0FF}
+.interviewcopy h2{color:#fff; margin-top:10px; font-size:clamp(30px,5vw,48px)}
+.interviewcopy p{margin-top:16px; max-width:42ch; font-size:16px; line-height:1.6; color:rgba(255,255,255,.68)}
+.interviewcopy .interviewnote{padding-top:18px; margin-top:24px; border-top:1px solid rgba(255,255,255,.13); font-size:12.5px; color:rgba(255,255,255,.48)}
+
 /* ── the friction stack ────────────────────────────────────── */
 .count{font-family:var(--serif); font-weight:700; font-size:88px; line-height:.9; color:var(--blue); letter-spacing:-.03em; font-variant-numeric:tabular-nums}
 .count sup{font-size:.34em; vertical-align:super}
@@ -408,6 +453,12 @@ footer{margin-top:80px; border-top:1px solid var(--line-2); padding:28px 0 64px}
   .night{height:64vh; min-height:380px}
   .night .in{padding:28px 22px}
   .night .clock{font-size:38px}
+  .fieldnote{grid-template-columns:1fr; border-radius:24px}
+  .fieldvideo{justify-self:center; width:min(100%,300px)}
+  .fieldtrace .trace{grid-template-columns:1fr; gap:3px}
+  .interviewinner{grid-template-columns:1fr; padding:62px 20px 24px}
+  .interviewmedia{order:2}
+  .interviewmedia video{max-height:64svh}
   .count{font-size:64px}
   .track{overflow-x:auto; scroll-snap-type:x mandatory; transform:none !important; scrollbar-width:none; padding-bottom:10px}
   .track::-webkit-scrollbar{display:none}
@@ -436,6 +487,8 @@ footer{margin-top:80px; border-top:1px solid var(--line-2); padding:28px 0 64px}
   .nightrig{height:auto}
   .night{position:static; height:auto; min-height:0; padding-block:8px}
   .night img{transform:none !important}
+  .fieldvideo-trigger video{transform:none !important}
+  .interviewdialog[open]{animation:none}
   .film .fp{opacity:0} .film .fp.on{opacity:.82; transform:none}
   .track{transform:none !important; overflow-x:auto}
   .landingrig{height:auto !important}
@@ -465,13 +518,14 @@ footer{margin-top:80px; border-top:1px solid var(--line-2); padding:28px 0 64px}
   <div class="rail-rule"></div>
   <nav id="toc">
     <a href="#overview">Overview</a>
-    <a href="#shift">The Second Shift</a>
-    <a href="#collision">The System Collision</a>
-    <a href="#model">The Translation Model</a>
+    <a href="#shift">The Gap</a>
+    <a href="#interview">Live User Interview</a>
+    <a href="#collision">Research</a>
+    <a href="#model">Solution</a>
     <a href="#principles">Principles</a>
-    <a href="#flow">The Flow</a>
-    <a href="#work">Useful Work</a>
-    <a href="#return">The Return</a>
+    <a href="#flow">Prototype</a>
+    <a href="#work">AI Stack</a>
+    <a href="#return">Impact</a>
     <a href="#reflection">Reflection</a>
   </nav>
 </aside>
@@ -492,7 +546,7 @@ footer{margin-top:80px; border-top:1px solid var(--line-2); padding:28px 0 64px}
     <div class="meta rv stagger">
       <div class="tight"><p class="label">Role</p><p>Product Designer</p><p>Prototyping</p></div>
       <div class="tight"><p class="label">Timeline</p><p>August 2026</p><p>Design test</p></div>
-      <div class="tight"><p class="label">Team</p><p>1 Designer (me)</p></div>
+      <div class="tight"><p class="label">Team</p><p>1 Designer (me)</p><p>A team of AI agents</p></div>
       <div class="tight"><p class="label">Skills</p><p>Product Design</p><p>Narrative &amp; Research</p><p>Frontend Prototyping</p></div>
     </div>
   </header>
@@ -615,6 +669,35 @@ footer{margin-top:80px; border-top:1px solid var(--line-2); padding:28px 0 64px}
     </div>
     </div>
     <p class="cap rv">Composite scenario based on the product audit and small-business workflow research.</p>
+
+    <article class="fieldnote rv" id="interview" data-interview>
+      <div class="fieldcopy">
+        <p class="label">Live user interview · on site</p>
+        <h2>Meet Alex — owner of Unbound Fitness.</h2>
+        <p class="fieldlede">I met a small-business owner where the work actually happens. The conversation revealed how marketing gets squeezed between customers, operations, and everything that cannot wait.</p>
+        <p class="fieldthesis">What I heard wasn't a request for more marketing tools. It was a request for marketing that could understand the business before asking for more work.</p>
+
+        <div class="fieldtrace stagger">
+          <div class="trace"><p class="k">Observed</p><p class="v">The business day and the marketing day compete for the same limited attention.</p></div>
+          <div class="trace"><p class="k">Informed</p><p class="v">The redesign begins with recognition, then asks only for context the system cannot find.</p></div>
+          <div class="trace"><p class="k">Still testing</p><p class="v">How little context Bridgeway needs before its first useful draft.</p></div>
+        </div>
+
+        <div class="fieldactions">
+          <button class="link solid" type="button" data-interview-open>Watch full conversation · 7:17</button>
+        </div>
+      </div>
+
+      <div class="fieldvideo">
+        <button class="fieldvideo-trigger" type="button" data-interview-open aria-haspopup="dialog" aria-label="Watch the full contextual interview">
+          <video data-interview-preview muted playsinline preload="metadata" poster="assets/bridgeway/deck/persona-alex.jpg" aria-hidden="true" tabindex="-1">
+            <source src="assets/bridgeway/research/user-interview-alex.mp4" type="video/mp4">
+          </video>
+          <span class="fieldplay"><span>See the work behind the insight</span><i aria-hidden="true">▶</i></span>
+        </button>
+        <p class="fieldmeta"><span>Contextual interview · 7:17</span><span>Unbound</span></p>
+      </div>
+    </article>
   </section>
 
   <!-- ═══════════════ ACT II. THE SYSTEM COLLISION ═══════════════ -->
@@ -854,6 +937,7 @@ footer{margin-top:80px; border-top:1px solid var(--line-2); padding:28px 0 64px}
       <div class="row"><p class="k">01 Audit</p><p class="v"><b>Existing product audit</b>Heuristic evaluation of the current onboarding flow to identify where the product asks owners to think like marketers.</p></div>
       <div class="row"><p class="k">02 Redesign</p><p class="v"><b>First-principles redesign</b>Reframing onboarding as a translation layer that converts owner language into marketing work.</p></div>
       <div class="row"><p class="k">03 Scenarios</p><p class="v"><b>Composite scenarios</b>Alex, Maya, Noor, and Sofia are composite personas synthesized from observed small-business patterns. They are not real individuals.</p></div>
+      <div class="row"><p class="k">04 Field interview</p><p class="v"><b>On-site contextual interview</b>A recorded conversation inside the business grounded the problem framing in a real owner's working environment. It informed the direction; it did not validate the proposed solution.</p></div>
     </div>
 
     <p class="label rv pair-gap">Evidence discipline</p>
@@ -900,6 +984,24 @@ footer{margin-top:80px; border-top:1px solid var(--line-2); padding:28px 0 64px}
 
 </div>
 </main>
+
+<dialog class="interviewdialog" data-interview-dialog aria-labelledby="interview-title">
+  <button class="interviewclose" type="button" data-interview-close aria-label="Close interview">×</button>
+  <div class="interviewinner">
+    <div class="interviewmedia">
+      <video data-interview-full controls playsinline preload="metadata" aria-label="Full contextual interview with a small-business owner">
+        <source src="assets/bridgeway/research/user-interview-alex.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="interviewcopy">
+      <p class="label">Research artifact · 7:17</p>
+      <h2 id="interview-title">A conversation inside the business.</h2>
+      <p>This is the field conversation that grounded the redesign in the daily reality of a small-business owner—not a polished testimonial and not the composite Alex scenario.</p>
+      <p>The interview informed the problem framing and design direction. The product concepts that follow are still hypotheses to validate.</p>
+      <p class="interviewnote">Full conversation with sound. No lines from this interview are presented as verbatim quotes elsewhere in the case study.</p>
+    </div>
+  </div>
+</dialog>
 
 <script>
 /* ============================================================
@@ -1098,6 +1200,65 @@ footer{margin-top:80px; border-top:1px solid var(--line-2); padding:28px 0 64px}
       setTimeout(function(){ btn.classList.remove('done'); btn.textContent = original; }, 2600);
     });
   });
+
+  /* ---- field interview: a silent editorial preview, sound only
+          after the visitor chooses to open the research artifact */
+  var preview = document.querySelector('[data-interview-preview]');
+  var dialog = document.querySelector('[data-interview-dialog]');
+  var fullInterview = document.querySelector('[data-interview-full]');
+  var previewStart = 72, previewEnd = 80, lastInterviewTrigger = null;
+
+  function seekPreview(){
+    if(preview && preview.readyState >= 1 && Math.abs(preview.currentTime - previewStart) > 1) preview.currentTime = previewStart;
+  }
+
+  if(preview){
+    preview.addEventListener('loadedmetadata', seekPreview, {once:true});
+    preview.addEventListener('timeupdate', function(){
+      if(preview.currentTime >= previewEnd) preview.currentTime = previewStart;
+    });
+
+    if(!reduce && 'IntersectionObserver' in window){
+      new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){ seekPreview(); preview.play().catch(function(){}); }
+          else preview.pause();
+        });
+      }, {threshold:.35}).observe(preview);
+    }
+  }
+
+  function openInterview(trigger){
+    if(!dialog) return;
+    lastInterviewTrigger = trigger;
+    if(preview) preview.pause();
+    dialog.showModal();
+    if(fullInterview){
+      fullInterview.currentTime = 0;
+      fullInterview.play().catch(function(){});
+    }
+  }
+
+  function closeInterview(){
+    if(!dialog || !dialog.open) return;
+    if(fullInterview) fullInterview.pause();
+    dialog.close();
+    if(lastInterviewTrigger) lastInterviewTrigger.focus();
+  }
+
+  document.querySelectorAll('[data-interview-open]').forEach(function(trigger){
+    trigger.addEventListener('click', function(){ openInterview(trigger); });
+  });
+  document.querySelectorAll('[data-interview-close]').forEach(function(trigger){
+    trigger.addEventListener('click', closeInterview);
+  });
+  if(dialog){
+    dialog.addEventListener('click', function(event){ if(event.target === dialog) closeInterview(); });
+    dialog.addEventListener('close', function(){
+      if(fullInterview) fullInterview.pause();
+      if(preview && !reduce) preview.play().catch(function(){});
+    });
+  }
 })();
 </script>
 </body>

@@ -51,3 +51,37 @@ test('keeps a reduced-motion path for the new sequences', () => {
   assert.match(html, /\.landingrig/);
   assert.match(html, /\.flowrig/);
 });
+
+test('places the field interview between the composite Alex story and Act II', () => {
+  const composite = html.indexOf('Composite scenario based on the product audit');
+  const interview = html.indexOf('Meet Alex — owner of Unbound Fitness.');
+  const actTwo = html.indexOf('Act II. The system collision');
+
+  assert.ok(composite > -1, 'missing the composite-scenario disclosure');
+  assert.ok(interview > composite, 'field interview must follow the composite scenario');
+  assert.ok(actTwo > interview, 'field interview must resolve before Act II');
+});
+
+test('embeds the real interview as an accessible, user-controlled research artifact', async () => {
+  const asset = 'assets/bridgeway/research/user-interview-alex.mp4';
+
+  assert.match(html, new RegExp(asset.replaceAll('.', '\\.')));
+  assert.match(html, /<dialog[^>]*data-interview-dialog[^>]*>/);
+  assert.match(html, /<video[^>]*data-interview-full[^>]*controls/);
+  assert.match(html, /Contextual interview · 7:17/);
+  assert.match(html, /Live user interview · on site/);
+  await access(new URL(`../${asset}`, import.meta.url));
+});
+
+test('uses plain-language chapter navigation and credits the AI agent team', () => {
+  for (const label of ['Overview', 'The Gap', 'Live User Interview', 'Research', 'Solution', 'Prototype', 'AI Stack', 'Impact', 'Reflection']) {
+    assert.match(html, new RegExp(`>${label}<`));
+  }
+  assert.match(html, /1 Designer \(me\)/);
+  assert.match(html, /A team of AI agents/);
+});
+
+test('adds the field interview to the research methodology', () => {
+  assert.match(html, /04 Field interview/);
+  assert.match(html, /On-site contextual interview/);
+});
